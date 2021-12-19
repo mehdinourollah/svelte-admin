@@ -1,30 +1,39 @@
 <script>
-	export let name;
+  import "papercss/dist/paper.min.css";
+  import {
+    Router,
+    Route,
+    Link,
+    createHistory,
+    createMemorySource,
+  } from "svelte-navigator";
+  import Main from "./Main/Main.svelte";
+  import Header from "./Layout/Header.svelte";
+  import Footer from "./Layout/Footer.svelte";
+  import Login from "./Login/Login.svelte";
+  import NotFound from "./NotFound.svelte";
+  import { token } from "./store";
+
+  const html5History = createHistory(window);
+  const memoryHistory = createHistory(createMemorySource());
+  console.log("Hey");
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<Router>
+  <Route path="/">
+    {#if $token}
+      <Header />
+      <Main />
+      <Footer />
+    {:else}
+      <Login />
+    {/if}
+  </Route>
+
+  <Route path="*">
+    <NotFound />
+  </Route>
+</Router>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
